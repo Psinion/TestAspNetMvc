@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TestAspNetMvc.Controllers.Base;
+using TestAspNetMvc.ViewModels;
 
 namespace TestAspNetMvc.Controllers;
 
@@ -11,7 +12,10 @@ public class UsersController : ConnectedController
 
     public IActionResult Index()
     {
-        var allUsers = UnitOfWork.UsersRepository.GetAll();
-        return View(allUsers);
+        var usersVm = new UsersViewModel()
+        {
+            Users = UnitOfWork.UsersRepository.GetAll()
+        };
+        return View(usersVm);
     }
 }

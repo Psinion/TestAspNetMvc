@@ -1,29 +1,23 @@
-﻿@using TestAspNetMvc.Data.Models;
-@model IEnumerable<User>
+﻿@using TestAspNetMvc.ViewModels;
+@model UsersViewModel
 
 @{
 
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width-device-width"/>
-    <title>Пользователи</title>
-</head>
-
-<body>
-    <h1>Пользователи:</h1>
-    @{
-        foreach (var user in Model)
-        {
-            <div>
-                <h2>@user.UserName</h2>
-                <span>Зарплата: @user.Salary.ToString("C")</span>
+<h4>Пользователи:</h4>
+<a class="btn" href="#">Создать</a>
+@{
+    foreach (var user in Model.Users)
+    {
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title">@user.UserName</span>
+                <p>Зарплата: @user.Salary.ToString("C")</p>
             </div>
-        }
+            <div class="card-action">
+                <a href="#">Изменить</a>
+            </div>
+        </div>
     }
-</body>
-
-</html>
+}

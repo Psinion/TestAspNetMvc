@@ -1,0 +1,25 @@
+﻿@using TestAspNetMvc.ViewModels.Base;
+@model IBaseViewModel
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width-device-width"/>
+    <title>@Model.Title</title>
+    <link href="~/css/materialize.min.css" rel="stylesheet" type="text/css"/>
+    <link href="~/js/materialize.min.js" type="text/javascript"/>
+</head>
+
+<body>
+<nav>
+    <div class="nav-wrapper container"></div>
+</nav>
+<div>
+    <div class="container">
+        @RenderBody()
+    </div>
+</div>
+</body>
+
+</html>
