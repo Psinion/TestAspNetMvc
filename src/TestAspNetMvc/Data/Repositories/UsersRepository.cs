@@ -21,8 +21,19 @@ public class UsersRepository : IUsersRepository
     public IEnumerable<User> GetAll()
     {
         string query = @"
-SELECT U.Id, U.UserName, U.Salary, U.DepartmentId, U.PCId
+SELECT 
+      U.Id
+    , U.UserName
+    , U.Salary
+    , D.Id
+    , D.Name
+    , PC.Id
+    , PC.Cpu
+    , PC.Memory
+    , PC.Hdd
 FROM Users U
+JOIN Departments D ON D.Id = U.DepartmentId
+JOIN PC PC ON PC.Id = U.PCId
 ";
         List<User> users = new List<User>();
         using (SqlCommand cmd = new SqlCommand(query))
@@ -34,11 +45,29 @@ FROM Users U
             {
                 while (reader.Read())
                 {
-                    int id = reader.GetInt32(0);
-                    string name = reader.GetString(1);
-                    double salary = reader.GetDouble(2);
-                    int departmentId = reader.GetInt32(3);
-                    int pcId = reader.GetInt32(4);
+                    var id = reader.GetInt32(0);
+                    var name = reader.GetString(1);
+                    var salary = reader.GetDouble(2);
+                    var departmentId = reader.GetInt32(3);
+                    var departmentName = reader.GetString(4);
+                    var pcId = reader.GetInt32(5);
+                    var pcCpu = reader.GetDouble(6);
+                    var pcMemory = reader.GetDouble(7);
+                    var pcHdd = reader.GetDouble(8);
+
+                    var department = new Department()
+                    {
+                        Id = departmentId,
+                        Name = departmentName
+                    };
+
+                    var pc = new PC()
+                    {
+                        Id = pcId,
+                        Cpu = pcCpu,
+                        Memory = pcMemory,
+                        Hdd = pcHdd
+                    };
 
                     var user = new User()
                     {
@@ -46,7 +75,9 @@ FROM Users U
                         UserName = name,
                         Salary = salary,
                         DepartmentId = departmentId,
-                        PCId = pcId
+                        Department = department,
+                        PCId = pcId,
+                        PC = pc
                     };
 
                     users.Add(user);

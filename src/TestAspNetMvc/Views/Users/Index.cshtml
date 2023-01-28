@@ -13,7 +13,14 @@
         <div class="card">
             <div class="card-content">
                 <span class="card-title">@user.UserName</span>
+
                 <p>Зарплата: @user.Salary.ToString("C")</p>
+                <p>Отдел: @user.Department.Name</p>
+
+                <h5>Компьютер</h5>
+                <p>Частота процессора: @user.PC.Cpu MHz</p>
+                <p>Оперативная память: @user.PC.Memory Mb</p>
+                <p>Жёсткий диск: @user.PC.Hdd Gb</p>
             </div>
             <div class="card-action">
                 <a href="#">Изменить</a>
