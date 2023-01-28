@@ -1,0 +1,29 @@
+﻿@using TestAspNetMvc.Data.Models;
+@model IEnumerable<User>
+
+@{
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width-device-width"/>
+    <title>Пользователи</title>
+</head>
+
+<body>
+    <h1>Пользователи:</h1>
+    @{
+        foreach (var user in Model)
+        {
+            <div>
+                <h2>@user.UserName</h2>
+                <span>Зарплата: @user.Salary.ToString("C")</span>
+            </div>
+        }
+    }
+</body>
+
+</html>

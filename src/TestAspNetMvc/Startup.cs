@@ -25,6 +25,11 @@ public class Startup
 
         app.UseStaticFiles();
 
-        app.UseMvcWithDefaultRoute();
+        app.UseMvc(routes =>
+        {
+            routes.MapRoute(
+                name: "default",
+                template: "{controller=Users}/{action=Index}");
+        });
     } 
 }

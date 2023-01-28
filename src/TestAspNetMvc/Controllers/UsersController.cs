@@ -11,7 +11,7 @@ public class UsersController : ConnectedController
 
     public IActionResult Index()
     {
-        var allUSers = UnitOfWork.UsersRepository.GetAll();
-        return View();
+        var allUsers = UnitOfWork.UsersRepository.GetAll();
+        return View(allUsers);
     }
 }
