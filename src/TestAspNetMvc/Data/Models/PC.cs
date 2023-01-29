@@ -7,4 +7,5 @@ public class PC : Entity
     public double Cpu { get; set; }
     public double Memory { get; set; }
     public double Hdd { get; set; }
+    public string SearchString => $"{Id} {Cpu} {Memory} {Hdd}";
 }

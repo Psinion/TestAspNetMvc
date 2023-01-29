@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using TestAspNetMvc.Data.Models;
 using TestAspNetMvc.ViewModels.Base;
 
 namespace TestAspNetMvc.ViewModels;

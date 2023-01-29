@@ -109,4 +109,56 @@ public class UsersController : ConnectedController
 
         return View(userModel);
     }
+
+    [HttpGet]
+    [Route("Users/ChangePC/{id}/{searchString}")]
+    [Route("Users/ChangePC/{id}")]
+    public IActionResult ChangePC(int id, string searchString)
+    {
+        var user = UnitOfWork.UsersRepository.GetById(id);
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        var pcs = UnitOfWork
+            .PCRepository
+            .GetAll();
+
+        if (searchString != null && searchString != string.Empty)
+        {
+            pcs = pcs
+                .Where(x => x.SearchString.Contains(searchString));
+        }
+
+        var userVm = new ChangePCViewModel()
+        {
+            Id = user.Id,
+            SearchString = searchString,
+            UserName = user.UserName,
+            DepartmentName = user.Department.Name,
+            PC = user.PC,
+            FilteredPCs = pcs
+        };
+
+        return View(userVm);
+    }
+
+    [HttpGet]
+    [Route("Users/SetPCToUser/{userId}/{pcId}")]
+    public IActionResult SetPCToUser(int userId, int pcId)
+    {
+        var userRep = UnitOfWork.UsersRepository;
+
+        var user = userRep.GetById(userId);
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        user.PCId = pcId;
+        userRep.Update(user);
+
+        return RedirectToAction("Index");
+    }
 }

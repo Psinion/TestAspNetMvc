@@ -1,0 +1,47 @@
+﻿@using TestAspNetMvc.ViewModels;
+@model ChangePCViewModel
+
+<p>
+    <h4>Выдача компьютера пользователю:</h4>
+</p>
+
+@using (Html.BeginForm("ChangePC", "Users", FormMethod.Get))
+{
+    <input type="hidden" value="@Model.Id" name="UserId" />
+
+    <label for="searchField" class="form-label">Поиск</label>
+    <input id="searchField" type="search" class="form-control" value="@Model.SearchString" name="searchString"/>
+}
+
+<input type="hidden" value="@Model.Id" name="UserId" />
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Частота процессора (MHz)</th>
+        <th>Оперативная память (Mb)</th>
+        <th>Жёсткий диск (Gb)</th>
+        <th>Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach(var pc in @Model.FilteredPCs) 
+    {
+        <tr>
+            <td>@pc.Id</td>
+            <td>@pc.Cpu</td>
+            <td>@pc.Memory</td>
+            <td>@pc.Hdd</td>
+            @if (pc.Id != Model.PC.Id)
+            {
+                <td><a class="btn btn-outline-primary" href="~/Users/SetPCToUser/@Model.Id/@pc.Id">Выдать</a></td>
+            }
+            else
+            {
+                <td></td>
+            }
+        </tr>
+    }
+    </tbody>
+</table>

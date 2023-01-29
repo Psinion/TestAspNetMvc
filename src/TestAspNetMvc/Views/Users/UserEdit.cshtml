@@ -1,10 +1,5 @@
-﻿@using TestAspNetMvc.Data.Models
-@using TestAspNetMvc.ViewModels;
+﻿@using TestAspNetMvc.ViewModels;
 @model UserEditViewModel
-
-@{
-
-}
 
 <p>
     <h4>Редактирование пользователя:</h4>
@@ -30,19 +25,39 @@
 
     <div class="row mb-4">
         <div class="col">
-            <div><label>Отдел</label></div>
+            <label for="departments" class="form-label">Отдел</label>
             @Html.DropDownList("DepartmentId", Model.Departments,
                 new {@id = "departments", @class = "form-select"})
             @Html.ValidationMessageFor(m => m.DepartmentId)
         </div>
         <div class="col">
-
+            <p>
+                <label for="userPc" class="form-label">Компьютер</label>
+                <a id="userPc" class="btn btn-primary form-control" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Компьютер #@Model.PCId
+                </a>
+            </p>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
             <input class="btn btn-primary" type="submit" value="Принять"/>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Выбор компьютера</h1>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
         </div>
     </div>
 }
