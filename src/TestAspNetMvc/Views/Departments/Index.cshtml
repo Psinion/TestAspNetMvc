@@ -5,18 +5,21 @@
 
 }
 
-<h4>Отделы:</h4>
-<a class="btn" href="~/Departments/DepartmentEdit">Создать</a>
+<p>
+    <h4>Отделы:</h4>
+    <a class="btn btn-primary" href="~/Departments/DepartmentEdit">Создать</a>
+</p>
 @{
     foreach (var department in Model.Departments)
     {
-        <div class="card">
-            <div class="card-content">
-                <span class="card-title">@department.Name</span>
+        <div class="card mb-4">
+            <div class="card-header">
+                @department.Name
             </div>
-            <div class="card-action">
-                <a href="~/Departments/DepartmentEdit/@department.Id">Изменить</a>
-                <a href="~/Departments/Delete/@department.Id">Удалить</a>
+
+            <div class="card-footer">
+                <a class="btn btn-primary" href="~/Departments/DepartmentEdit/@department.Id">Изменить</a>
+                <a class="btn btn-primary" href="~/Departments/Delete/@department.Id">Удалить</a>
             </div>
         </div>
     }

@@ -5,37 +5,43 @@
 
 }
 
-<h4>Редактирование компьютера:</h4>
+<p>
+    <h4>Редактирование компьютера:</h4>
+</p>
 @using (Html.BeginForm("PCEdit", "PC", FormMethod.Post))
 {
     <input type="hidden" value="@Model.Id" name="UserId" />
         
-    <div class="row">
-        <div class="input-field col s6">
-            @Html.EditorFor(m => m.Cpu, 
-                new { htmlAttributes = new { @id="cpu", @type="number", @class = "validate" } })
-            <label for="cpu">Частота процессора (MHz)</label>
+    <div class="row mb-2">
+        <div class="col">
+            <label for="cpu" class="form-label">Частота процессора (MHz)</label>
+            @Html.EditorFor(m => m.Cpu,
+                new {htmlAttributes = new {@id = "cpu", @type = "number", @class = "form-control"}})
             @Html.ValidationMessageFor(m => m.Cpu)
         </div>
     </div>
-    <div class="row">
-        <div class="input-field col s6">
-            @Html.EditorFor(m => m.Memory, 
-                new { htmlAttributes = new { @id="memory", @type="number", @class = "validate" } })
-            <label for="memory">Оперативная память (Mb)</label>
+
+    <div class="row mb-2">
+        <div class="col">
+            <label for="memory" class="form-label">Оперативная память (Mb)</label>
+            @Html.EditorFor(m => m.Memory,
+                new {htmlAttributes = new {@id = "memory", @type = "number", @class = "form-control"}})
             @Html.ValidationMessageFor(m => m.Memory)
         </div>
     </div>
-    <div class="row">
-        <div class="input-field col s6">
-            @Html.EditorFor(m => m.Hdd, 
-                new { htmlAttributes = new { @id="hdd", @type="number", @class = "validate" } })
-            <label for="hdd">Жёсткий диск (Gb)</label>
+
+    <div class="row mb-4">
+        <div class="col">
+            <label for="hdd" class="form-label">Жёсткий диск (Gb)</label>
+            @Html.EditorFor(m => m.Hdd,
+                new {htmlAttributes = new {@id = "hdd", @type = "number", @class = "form-control"}})
             @Html.ValidationMessageFor(m => m.Hdd)
         </div>
     </div>
 
     <div class="row">
-        <input class="btn" type="submit" value="Принять" />
+        <div class="col">
+            <input class="btn btn-primary" type="submit" value="Принять"/>
+        </div>
     </div>
 }

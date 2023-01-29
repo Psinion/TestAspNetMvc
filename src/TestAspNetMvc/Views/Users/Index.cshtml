@@ -5,25 +5,31 @@
 
 }
 
-<h4>Пользователи:</h4>
-<a class="btn" href="~/Users/UserEdit">Создать</a>
+<p>
+    <h4>Пользователи:</h4>
+    <a class="btn btn-primary" href="~/Users/UserEdit">Создать</a>
+</p>
 @{
     foreach (var user in Model.Users)
     {
-        <div class="card">
-            <div class="card-content">
-                <span class="card-title">@user.UserName</span>
+        <div class="card mb-4">
+            <div class="card-header">
+                @user.UserName
+            </div>
 
+            <div class="card-body">
                 <p>Зарплата: @user.Salary.ToString("C")</p>
                 <p>Отдел: @user.Department.Name</p>
-
+                    
                 <h5>Компьютер #@user.PC.Id</h5>
-                <p>Частота процессора: @user.PC.Cpu MHz</p>
-                <p>Оперативная память: @user.PC.Memory Mb</p>
-                <p>Жёсткий диск: @user.PC.Hdd Gb</p>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Частота процессора: @user.PC.Cpu MHz</li>
+                    <li class="list-group-item">Оперативная память: @user.PC.Memory Mb</li>
+                    <li class="list-group-item">Жёсткий диск: @user.PC.Hdd Gb</li>
+                </ul>
             </div>
-            <div class="card-action">
-                <a href="~/Users/UserEdit/@user.Id">Изменить</a>
+            <div class="card-footer">
+                <a class="btn btn-primary" href="~/Users/UserEdit/@user.Id">Изменить</a>
             </div>
         </div>
     }

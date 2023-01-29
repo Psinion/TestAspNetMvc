@@ -6,36 +6,43 @@
 
 }
 
-<h4>Редактирование пользователя:</h4>
+<p>
+    <h4>Редактирование пользователя:</h4>
+</p>
 @using (Html.BeginForm("UserEdit", "Users", FormMethod.Post))
 {
     <input type="hidden" value="@Model.Id" name="UserId" />
         
-    <div class="row">
-        <div class="input-field col s6">
-            @Html.EditorFor(m => m.UserName, 
-                new { htmlAttributes = new { @id="userName", @type="text", @class = "validate" } })
-            <label for="userName">Имя</label>
+    <div class="row mb-2">
+        <div class="col">
+            <label for="userName" class="form-label">Имя</label>
+            @Html.EditorFor(m => m.UserName,
+                new {htmlAttributes = new {@id = "userName", @type = "text", @class = "form-control"}})
             @Html.ValidationMessageFor(m => m.UserName)
         </div>
-        <div class="input-field col s6">
-            @Html.EditorFor(m => m.Salary, 
-                new { htmlAttributes = new { @id="userSalary", @type="number", @class = "validate" } })
-            <label for="userSalary">Зарплата</label>
+        <div class="col">
+            <label for="userSalary" class="form-label">Зарплата</label>
+            @Html.EditorFor(m => m.Salary,
+                new {htmlAttributes = new {@id = "userSalary", @type = "number", @class = "form-control"}})
             @Html.ValidationMessageFor(m => m.Salary)
         </div>
     </div>
 
-    <div class="row">
-        <div class="input-field col s6">
+    <div class="row mb-4">
+        <div class="col">
             <div><label>Отдел</label></div>
             @Html.DropDownList("DepartmentId", Model.Departments,
-                new {@id = "departments", @class = "browser-default"})
+                new {@id = "departments", @class = "form-select"})
             @Html.ValidationMessageFor(m => m.DepartmentId)
+        </div>
+        <div class="col">
+
         </div>
     </div>
 
     <div class="row">
-        <input class="btn" type="submit" value="Принять" />
+        <div class="col">
+            <input class="btn btn-primary" type="submit" value="Принять"/>
+        </div>
     </div>
 }
