@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using TestAspNetMvc.Data.Models;
 using TestAspNetMvc.ViewModels.Base;
 
@@ -17,7 +18,10 @@ public class UserEditViewModel : IBaseViewModel
     [DataType(DataType.Currency, ErrorMessage = ("Введите число"))]
     public double? Salary { get; set; }
 
-    public int DepartmentId { get; set; }
+    [Required(ErrorMessage = "Обязательное поле")]
+    public int? DepartmentId { get; set; }
 
     public int PCId { get; set; }
+
+    public SelectList Departments { get; set; }
 }

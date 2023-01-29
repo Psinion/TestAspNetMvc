@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using TestAspNetMvc.Controllers.Base;
+using TestAspNetMvc.Data.Models;
 using TestAspNetMvc.ViewModels;
 
 namespace TestAspNetMvc.Controllers;
@@ -24,9 +26,17 @@ public class UsersController : ConnectedController
     [Route("Users/UserEdit/{id}")]
     public IActionResult UserEdit(int? id)
     {
+        var departments = UnitOfWork.DepartmentsRepository.GetAll();
+
         if (id == null)
         {
-            return View(new UserEditViewModel());
+            return View(new UserEditViewModel()
+            {
+                Departments = new SelectList(
+                    departments, 
+                    nameof(Department.Id), 
+                    nameof(Department.Name))
+        });
         }
 
         var user = UnitOfWork.UsersRepository.GetById(id.Value);
@@ -42,6 +52,11 @@ public class UsersController : ConnectedController
             Salary = user.Salary,
             DepartmentId = user.DepartmentId,
             PCId = user.PCId,
+            Departments = new SelectList(
+                departments,
+                nameof(Department.Id),
+                nameof(Department.Name),
+                user.DepartmentId)
         };
 
         return View(userVm);
