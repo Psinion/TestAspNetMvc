@@ -18,10 +18,9 @@ public class UserEditViewModel : IBaseViewModel
     [DataType(DataType.Currency, ErrorMessage = ("Введите число"))]
     public double? Salary { get; set; }
 
-    [Required(ErrorMessage = "Обязательное поле")]
     public int? DepartmentId { get; set; }
 
     public int PCId { get; set; }
 
-    public SelectList Departments { get; set; }
+    public SelectList? Departments { get; set; }
 }

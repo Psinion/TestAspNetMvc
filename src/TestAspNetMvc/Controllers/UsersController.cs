@@ -79,25 +79,25 @@ public class UsersController : ConnectedController
 
         if (ModelState.IsValid)
         {
+            var user = new User()
+            {
+                Id = userModel.Id,
+                UserName = userModel.UserName,
+                Salary = userModel.Salary ?? 0,
+                DepartmentId = userModel.DepartmentId ?? 1,
+                PCId = 1// userModel.PCId
+            };
+
+            if (user.Id == 0)
+            {
+                UnitOfWork.UsersRepository.Add(user);
+            }
+            else
+            {
+                UnitOfWork.UsersRepository.Update(user);
+            }
+
             return RedirectToAction("Index");
-        }
-
-        var user = new User()
-        {
-            Id = userModel.Id,
-            UserName = userModel.UserName,
-            Salary = userModel.Salary ?? 0,
-            DepartmentId = userModel.DepartmentId ?? 1,
-            PCId = 1// userModel.PCId
-        };
-
-        if (user.Id == 0)
-        {
-            UnitOfWork.UsersRepository.Add(user);
-        }
-        else
-        {
-            UnitOfWork.UsersRepository.Update(user);
         }
 
         var departments = UnitOfWork.DepartmentsRepository.GetAll();
@@ -105,7 +105,7 @@ public class UsersController : ConnectedController
             departments,
             nameof(Department.Id),
             nameof(Department.Name),
-            user.DepartmentId);
+            userModel.DepartmentId);
 
         return View(userModel);
     }

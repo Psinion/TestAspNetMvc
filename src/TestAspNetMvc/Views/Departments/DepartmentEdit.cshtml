@@ -1,0 +1,25 @@
+﻿@using TestAspNetMvc.ViewModels;
+@model DepartmentEditViewModel
+
+@{
+
+}
+
+<h4>Редактирование отдела:</h4>
+@using (Html.BeginForm("DepartmentEdit", "Departments", FormMethod.Post))
+{
+    <input type="hidden" value="@Model.Id" name="UserId" />
+        
+    <div class="row">
+        <div class="input-field col s6">
+            @Html.EditorFor(m => m.Name, 
+                new { htmlAttributes = new { @id="depName", @type="text", @class = "validate" } })
+            <label for="depName">Имя</label>
+            @Html.ValidationMessageFor(m => m.Name)
+        </div>
+    </div>
+
+    <div class="row">
+        <input class="btn" type="submit" value="Принять" />
+    </div>
+}

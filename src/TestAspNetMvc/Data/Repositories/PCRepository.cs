@@ -15,7 +15,34 @@ public class PCRepository : IPCRepository
 
     public PC? GetById(int id)
     {
-        throw new NotImplementedException();
+        string query = @"
+SELECT 
+      PC.Id
+    , PC.Cpu
+    , PC.Memory
+    , PC.Hdd
+FROM PC
+WHERE PC.Id = @PC_ID
+";
+
+        PC pc = null;
+        using (SqlCommand cmd = new SqlCommand(query))
+        {
+            cmd.Parameters.AddWithValue("PC_ID", id);
+            cmd.Connection = connection;
+            connection.Open();
+
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+                if (reader.Read())
+                {
+                    pc = ReadPC(reader);
+                }
+            }
+            connection.Close();
+        }
+
+        return pc;
     }
 
     public IEnumerable<PC> GetAll()
@@ -50,17 +77,111 @@ FROM PC
     }
     public PC Add(PC item)
     {
-        throw new NotImplementedException();
+        string query = @"
+INSERT INTO PC(Cpu, Memory, Hdd)
+VALUES (@CPU, @MEMORY, @HDD);
+SELECT @@IDENTITY;";
+
+        using (SqlCommand cmd = new SqlCommand(query))
+        {
+            cmd.Parameters.AddWithValue("CPU", item.Cpu);
+            cmd.Parameters.AddWithValue("MEMORY", item.Memory);
+            cmd.Parameters.AddWithValue("HDD", item.Hdd);
+
+            cmd.Connection = connection;
+            connection.Open();
+
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var id = reader.GetDecimal(0);
+                    item.Id = (int)id;
+                }
+            }
+
+            connection.Close();
+        }
+
+        return item;
     }
 
     public void Update(PC item)
     {
-        throw new NotImplementedException();
+        string query = @"
+UPDATE PC
+SET Cpu = @CPU
+  , Memory = @MEMORY
+  , Hdd = @HDD
+WHERE Id = @PC_ID";
+
+        using (SqlCommand cmd = new SqlCommand(query))
+        {
+            cmd.Parameters.AddWithValue("CPU", item.Cpu);
+            cmd.Parameters.AddWithValue("MEMORY", item.Memory);
+            cmd.Parameters.AddWithValue("HDD", item.Hdd);
+            cmd.Parameters.AddWithValue("PC_ID", item.Id);
+
+            cmd.Connection = connection;
+            connection.Open();
+
+            cmd.ExecuteNonQuery();
+
+            connection.Close();
+        }
     }
 
     public void Remove(int id)
     {
-        throw new NotImplementedException();
+        string query = @"
+DELETE FROM PC
+WHERE Id = @PC_ID";
+
+        using (SqlCommand cmd = new SqlCommand(query))
+        {
+            cmd.Parameters.AddWithValue("PC_ID", id);
+
+            cmd.Connection = connection;
+            connection.Open();
+
+            cmd.ExecuteNonQuery();
+
+            connection.Close();
+        }
+    }
+
+    public bool HasUser(int id)
+    {
+        string query = @"
+SELECT COUNT(PC.Id)
+FROM PC
+JOIN Users U ON U.PCId = PC.Id
+WHERE PC.Id = @PC_ID;";
+
+        bool hasUser = false;
+        using (SqlCommand cmd = new SqlCommand(query))
+        {
+            cmd.Parameters.AddWithValue("PC_ID", id);
+
+            cmd.Connection = connection;
+            connection.Open();
+
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+                if (reader.Read())
+                {
+                    var count = reader.GetInt32(0);
+                    if (count != 0)
+                    {
+                        hasUser = true;
+                    }
+                }
+            }
+
+            connection.Close();
+        }
+
+        return hasUser;
     }
 
     private PC ReadPC(SqlDataReader reader)

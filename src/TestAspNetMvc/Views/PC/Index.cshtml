@@ -6,21 +6,21 @@
 }
 
 <h4>Компьютеры:</h4>
-<a class="btn" href="PC/PCEdit">Создать</a>
+<a class="btn" href="~/PC/PCEdit">Создать</a>
 @{
     foreach (var pc in Model.PCs)
     {
         <div class="card">
             <div class="card-content">
-                <span class="card-title">@pc.Id</span>
+                <span class="card-title">Компьютер #@pc.Id</span>
                 
-                <p>Частота процессора: @pc.Cpu.ToString("C") MHz</p>
+                <p>Частота процессора: @pc.Cpu MHz</p>
                 <p>Оперативная память: @pc.Memory Mb</p>
                 <p>Жёсткий диск: @pc.Hdd Gb</p>
             </div>
             <div class="card-action">
-                <a href="PC/PCEdit/@pc.Id">Изменить</a>
-                <a href="PC/PCEdit/@pc.Id">Удалить</a>
+                <a href="~/PC/PCEdit/@pc.Id">Изменить</a>
+                <a href="~/PC/Delete/@pc.Id">Удалить</a>
             </div>
         </div>
     }
