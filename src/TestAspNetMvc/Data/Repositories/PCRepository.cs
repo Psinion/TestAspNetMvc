@@ -20,7 +20,33 @@ public class PCRepository : IPCRepository
 
     public IEnumerable<PC> GetAll()
     {
-        throw new NotImplementedException();
+        string query = @"
+SELECT 
+      PC.Id
+    , PC.Cpu
+    , PC.Memory
+    , PC.Hdd
+FROM PC
+";
+        List<PC> pcs = new List<PC>();
+        using (SqlCommand cmd = new SqlCommand(query))
+        {
+            cmd.Connection = connection;
+            connection.Open();
+
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var pc = ReadPC(reader);
+
+                    pcs.Add(pc);
+                }
+            }
+            connection.Close();
+        }
+
+        return pcs;
     }
     public PC Add(PC item)
     {
@@ -35,5 +61,23 @@ public class PCRepository : IPCRepository
     public void Remove(int id)
     {
         throw new NotImplementedException();
+    }
+
+    private PC ReadPC(SqlDataReader reader)
+    {
+        var id = reader.GetInt32(0);
+        var cpu = reader.GetDouble(1);
+        var memory = reader.GetDouble(2);
+        var hdd = reader.GetDouble(3);
+
+        var pc = new PC()
+        {
+            Id = id,
+            Cpu = cpu,
+            Memory = memory,
+            Hdd = hdd,
+        };
+
+        return pc;
     }
 }
