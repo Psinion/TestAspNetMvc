@@ -92,12 +92,61 @@ JOIN PC PC ON PC.Id = U.PCId
 
     public User Add(User item)
     {
-        throw new NotImplementedException();
+        string query = @"
+INSERT INTO Users(UserName, Salary, DepartmentId, PCId)
+VALUES (@USER_NAME, @SALARY, @DEPARTMENT_ID, @PC_ID);
+SELECT @@IDENTITY;";
+
+        using (SqlCommand cmd = new SqlCommand(query))
+        {
+            cmd.Parameters.AddWithValue("USER_NAME", item.UserName);
+            cmd.Parameters.AddWithValue("SALARY", item.Salary);
+            cmd.Parameters.AddWithValue("DEPARTMENT_ID", item.DepartmentId);
+            cmd.Parameters.AddWithValue("PC_ID", item.PCId);
+
+            cmd.Connection = connection;
+            connection.Open();
+
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var id = reader.GetDecimal(0);
+                    item.Id = (int)id;
+                }
+            }
+
+            connection.Close();
+        }
+
+        return item;
     }
 
     public void Update(User item)
     {
-        throw new NotImplementedException();
+        string query = @"
+UPDATE Users
+SET UserName = @USER_NAME
+  , Salary = @SALARY
+  , DepartmentId = @DEPARTMENT_ID
+  , PCId = @PC_ID
+WHERE Id = @USER_ID";
+
+        using (SqlCommand cmd = new SqlCommand(query))
+        {
+            cmd.Parameters.AddWithValue("USER_NAME", item.UserName);
+            cmd.Parameters.AddWithValue("SALARY", item.Salary);
+            cmd.Parameters.AddWithValue("DEPARTMENT_ID", item.DepartmentId);
+            cmd.Parameters.AddWithValue("PC_ID", item.PCId);
+            cmd.Parameters.AddWithValue("USER_ID", item.Id);
+
+            cmd.Connection = connection;
+            connection.Open();
+
+            cmd.ExecuteNonQuery();
+
+            connection.Close();
+        }
     }
 
     public void Remove(int id)

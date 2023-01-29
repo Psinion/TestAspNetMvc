@@ -63,16 +63,18 @@ public class UsersController : ConnectedController
     }
 
     [HttpPost]
-    public IActionResult UserEdit(UserEditViewModel model)
+    [Route("Users/UserEdit")]
+    [Route("Users/UserEdit/{id}")]
+    public IActionResult UserEdit(UserEditViewModel userModel)
     {
-        if (model.Salary < 0)
+        if (userModel.Salary < 0)
         {
-            ModelState.AddModelError(nameof(model.Salary), "Введите положительное число");
+            ModelState.AddModelError(nameof(userModel.Salary), "Введите положительное число");
         }
 
-        if (model.UserName?.Length < 2)
+        if (userModel.UserName?.Length < 2)
         {
-            ModelState.AddModelError(nameof(model.UserName), "Слишком короткое имя");
+            ModelState.AddModelError(nameof(userModel.UserName), "Слишком короткое имя");
         }
 
         if (ModelState.IsValid)
@@ -80,6 +82,31 @@ public class UsersController : ConnectedController
             return RedirectToAction("Index");
         }
 
-        return View(model);
+        var user = new User()
+        {
+            Id = userModel.Id,
+            UserName = userModel.UserName,
+            Salary = userModel.Salary ?? 0,
+            DepartmentId = userModel.DepartmentId ?? 1,
+            PCId = 1// userModel.PCId
+        };
+
+        if (user.Id == 0)
+        {
+            UnitOfWork.UsersRepository.Add(user);
+        }
+        else
+        {
+            UnitOfWork.UsersRepository.Update(user);
+        }
+
+        var departments = UnitOfWork.DepartmentsRepository.GetAll();
+        userModel.Departments = new SelectList(
+            departments,
+            nameof(Department.Id),
+            nameof(Department.Name),
+            user.DepartmentId);
+
+        return View(userModel);
     }
 }

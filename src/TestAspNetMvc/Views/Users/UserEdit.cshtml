@@ -29,7 +29,7 @@
     <div class="row">
         <div class="input-field col s6">
             <div><label>Отдел</label></div>
-            @Html.DropDownList("Departments", Model.Departments,
+            @Html.DropDownList("DepartmentId", Model.Departments,
                 new {@id = "departments", @class = "browser-default"})
             @Html.ValidationMessageFor(m => m.DepartmentId)
         </div>
