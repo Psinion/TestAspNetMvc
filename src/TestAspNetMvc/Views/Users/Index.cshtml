@@ -6,7 +6,7 @@
 }
 
 <h4>Пользователи:</h4>
-<a class="btn" href="#">Создать</a>
+<a class="btn" href="Users/UserEdit">Создать</a>
 @{
     foreach (var user in Model.Users)
     {
@@ -23,7 +23,7 @@
                 <p>Жёсткий диск: @user.PC.Hdd Gb</p>
             </div>
             <div class="card-action">
-                <a href="#">Изменить</a>
+                <a href="Users/UserEdit/@user.Id">Изменить</a>
             </div>
         </div>
     }

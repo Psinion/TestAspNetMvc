@@ -27,9 +27,7 @@ public class Startup
 
         app.UseMvc(routes =>
         {
-            routes.MapRoute(
-                name: "default",
-                template: "{controller=Users}/{action=Index}");
+            routes.MapRoute(name: "default", template: "{controller=Users}/{action=Index}");
         });
     } 
 }
